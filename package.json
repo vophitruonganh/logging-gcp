@@ -1,0 +1,22 @@
+{
+  "name": "logging-gcp",
+  "version": "1.0.5",
+  "description": "Logging to GCP with winston",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vophitruonganh@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/logging-winston": "^4.0.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@jest/globals": "^26.4.2",
+    "jest": "^25.5.4",
+    "jest-sonar-reporter": "^2.0.0",
+    "redis-mock": "^0.48.0",
+    "supertest": "^4.0.2"
+  }
+}
