@@ -18,9 +18,11 @@ npm i logging-gcp
 ## Usage
 
 ```javascript
-const logger = require('logging-gcp');
-// or 
-const logger = require('logging-gcp');
+const logger = require('logging-gcp').init({
+  keyFilename: <path-key-file>.json,
+  logName: <log name to GCP Logging>
+});
+
 
 //Logging with type info
 logger.info('Logging information data to gcp');
