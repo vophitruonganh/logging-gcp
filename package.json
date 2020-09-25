@@ -1,12 +1,15 @@
 {
   "name": "logging-gcp",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Logging to GCP with winston",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "vophitruonganh@gmail.com",
+  "author": {
+    "name": "Truong Anh Vo",
+    "url": "https://github.com/vophitruonganh/logging-gcp"
+  },
   "license": "MIT",
   "dependencies": {
     "@google-cloud/logging-winston": "^4.0.0",
@@ -18,5 +21,20 @@
     "jest-sonar-reporter": "^2.0.0",
     "redis-mock": "^0.48.0",
     "supertest": "^4.0.2"
-  }
+  },
+  "keywords": [
+    "Logging",
+    "GCP Logging",
+    "Google cloud",
+    "Cloud logging"
+    "winston"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vophitruonganh/logging-gcp.git"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ]
 }
