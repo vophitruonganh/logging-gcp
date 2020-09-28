@@ -1,6 +1,6 @@
 const { LoggingWinston } = require("@google-cloud/logging-winston");
 const winston = require("winston");
-const constants = require("./utils/constants");
+const constants = require("./common/constants");
 
 let logger;
 let logGCP =
@@ -8,7 +8,6 @@ let logGCP =
 
 class LoggingGCP {
   constructor(objs) {
-  
     let keyFilename = (objs && objs.keyFilename) || constants.KEY_FILENAME;
     let logName =
       (objs && objs.logName) ||
