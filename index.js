@@ -3,8 +3,9 @@ const winston = require("winston");
 const constants = require("./common/constants");
 
 let logger;
-let logGCP =
-  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
+let instance;
+
+let logGCP = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
 
 class LoggingGCP {
   constructor(objs) {
@@ -14,6 +15,9 @@ class LoggingGCP {
       process.env.WINSTON_LOG_NAME ||
       process.env.LOG_NAME ||
       "winston_log";
+
+      console.log('keyFilename: ' , keyFilename);
+      console.log('logName: ' , logName);
     const errorFormat = winston.format((info) => {
       if (info && info.error instanceof Error) {
         return { ...{ stackTrace: info.error.stack }, info };
@@ -123,11 +127,11 @@ class LoggingGCP {
     }
   };
 
-  static init = () => {
-    if (!logger) {
-      logger = new LoggingGCP();
+  static init = (objs) => {
+    if (!instance) {
+      instance = new LoggingGCP(objs);
     }
-    return logger;
+    return instance;
   };
 }
 
