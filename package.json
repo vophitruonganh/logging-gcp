@@ -10,7 +10,12 @@
     "name": "Truong Anh Vo",
     "url": "https://github.com/vophitruonganh/logging-gcp"
   },
-  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
   "dependencies": {
     "@google-cloud/logging-winston": "^4.0.0",
     "winston": "^3.3.3"
@@ -32,5 +37,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vophitruonganh/logging-gcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vophitruonganh/logging-gcp/issues",
+    "email": "vophitruonganh@gmail.com"
   }
 }
