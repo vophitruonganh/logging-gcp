@@ -16,8 +16,6 @@ class LoggingGCP {
       process.env.LOG_NAME ||
       "winston_log";
 
-      console.log('keyFilename: ' , keyFilename);
-      console.log('logName: ' , logName);
     const errorFormat = winston.format((info) => {
       if (info && info.error instanceof Error) {
         return { ...{ stackTrace: info.error.stack }, info };
