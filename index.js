@@ -1,11 +1,13 @@
 const { LoggingWinston } = require("@google-cloud/logging-winston");
 const winston = require("winston");
 const constants = require("./common/constants");
+const jsonStringify = require("fast-safe-stringify");
 
 let logger;
 let instance;
 
-let logGCP = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
+let logGCP =
+  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
 
 class LoggingGCP {
   constructor(objs) {
@@ -16,15 +18,30 @@ class LoggingGCP {
       process.env.LOG_NAME ||
       "winston_log";
 
-    const errorFormat = winston.format((info) => {
-      if (info && info.error instanceof Error) {
-        return { ...{ stackTrace: info.error.stack }, info };
-      }
-      return info;
-    });
+    const errorFormat = {
+      transform(info) {
+        const { timestamp, label, message } = info;
+        const level = info[Symbol.for("level")];
+        const args = info[Symbol.for("splat")];
+        const strArgs = args.map(jsonStringify).join(" ");
+        info[
+          Symbol.for("message")
+        ] = `${timestamp} [${label}] ${level}: ${message} ${strArgs}`;
+
+        if (info && info.error instanceof Error) {
+          return { ...{ stackTrace: info.error.stack }, info };
+        }
+
+        return info;
+      },
+    };
 
     logger = winston.createLogger({
-      format: winston.format.combine(errorFormat(), winston.format.json()),
+      format: winston.format.combine(
+        errorFormat,
+        winston.format.json(),
+        winston.format.timestamp()
+      ),
       transports: [
         new LoggingWinston({
           keyFilename: keyFilename,
@@ -41,14 +58,14 @@ class LoggingGCP {
    * @param type
    */
   logWinston = (message, data, type = "error") => {
-    try {
-      if (type === "error") {
-        logger.error(message || "ERROR: ", data);
-      } else {
-        logger.info(message || "INFO: ", data);
-      }
-    } catch (error) {
-      log.error(error);
+    message = message || (data && data.error && data.error.message);
+
+    if (typeof data !== "object") message += data;
+
+    if (type === "error") {
+      winstonLogger.log(type, message || "ERROR: ", data);
+    } else {
+      winstonLogger.log(type, message || "INFO: ", data);
     }
   };
 
@@ -79,7 +96,7 @@ class LoggingGCP {
     try {
       message = "[WARNING] - " + message;
       if (logGCP) {
-        logger.warning(message || "ERROR: ", data);
+        logger.log("warn", message || "ERROR: ", data);
       } else {
         console.warn(message || "ERROR: ", data);
       }
@@ -97,6 +114,7 @@ class LoggingGCP {
     try {
       message =
         "[ERROR] - " + message + (message.stack ? "::" + message.stack : "");
+
       if (logGCP) {
         logger.error(message || "ERROR: ", data);
       } else {
@@ -116,9 +134,9 @@ class LoggingGCP {
     try {
       message = "[DEBUG] - " + message;
       if (logGCP) {
-        logger.info(message || "ERROR: ", data);
+        logger.log("info", message || "DEBUG: ", data);
       } else {
-        console.info(message || "ERROR: ", data);
+        console.info(message || "DEBUG: ", data);
       }
     } catch (error) {
       console.error(error);
