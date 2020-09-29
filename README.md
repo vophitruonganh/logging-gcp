@@ -45,7 +45,23 @@ logger.warning('Logging warning message to gcp');
 logger.error('Logging error message to gcp');
  ```
 
+ ## New Update
 
+```javascript
+//Logging with type info
+logger.info(
+  'Logging information data to gcp', 
+  {test: "Test logging info"}, 
+  "Logging Info"
+);
+
+//Logging with type error
+logger.error(
+  'Logging information data to gcp', 
+  {test: "Test logging error"}, 
+  "Logging error"
+);
+ ```
 
 ## Author
 

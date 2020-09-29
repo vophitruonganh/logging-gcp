@@ -29,7 +29,7 @@ class LoggingGCP {
         ] = `${timestamp} [${label}] ${level}: ${message} ${strArgs}`;
 
         if (info && info.error instanceof Error) {
-          return { ...{ stackTrace: info.error.stack }, info };
+          return { info, ...{ stackTrace: info.error.stack } };
         }
 
         return info;
