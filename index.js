@@ -23,7 +23,9 @@ class LoggingGCP {
         const { timestamp, label, message } = info;
         const level = info[Symbol.for("level")];
         const args = info[Symbol.for("splat")];
-        const strArgs = args.map(jsonStringify).join(" ");
+        let strArgs = "";
+        if (args) strArgs = args.map(item => jsonStringify(item)).join(" ");
+
         info[
           Symbol.for("message")
         ] = `${timestamp} [${label}] ${level}: ${message} ${strArgs}`;
