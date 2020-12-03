@@ -12,8 +12,19 @@
 </p>
 
 > Logging to GCP with winston
+## New Update
+Support multi params
+```javascript
+const logger = require('logging-gcp').init({
+  keyFilename: "<path-key-file>.json",
+  logName: "<log name to GCP Logging>"
+});
 
-## Enviromemnt
+
+// Supported add multi params
+logger.info('Logging information data to gcp', params1 , params2, params3);
+ ```
+## Environment
 
 ``` sh
 NodeJS: >= 8.x.x
@@ -30,8 +41,8 @@ npm install logging-gcp
 
 ```javascript
 const logger = require('logging-gcp').init({
-  keyFilename: <path-key-file>.json,
-  logName: <log name to GCP Logging>
+  keyFilename: "<path-key-file>.json",
+  logName: "<log name to GCP Logging>"
 });
 
 
@@ -43,6 +54,9 @@ logger.warning('Logging warning message to gcp');
 
 //Logging with type error
 logger.error('Logging error message to gcp');
+
+// Supported add multi params
+logger.info('Logging information data to gcp', params1 , params2, params3);
  ```
 
  ## New Update
