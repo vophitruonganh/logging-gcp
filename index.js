@@ -2,13 +2,14 @@ const {LoggingWinston} = require("@google-cloud/logging-winston");
 const {format, createLogger, transports} = require("winston");
 const constants = require("./common/constants");
 const jsonStringify = require("fast-safe-stringify");
-const ENVIRONMENT = (process.env.NODE_ENV || "").toUpperCase();
+const RELEASE_MODE = ['PRODUCTION', "production", "staging", "STAGING"];
+const DEBUG_MODE = ['debug', "DEBUG", "DEVELOP", "develop"];
 
 let logger;
 let instance;
 
-const logGCP = ENVIRONMENT === "PRODUCTION" || ENVIRONMENT === "STAGING";
-const isDebug = ENVIRONMENT !== "DEVELOP" || ENVIRONMENT !== "DEBUG";
+const logGCP = RELEASE_MODE.includes(process.env.NODE_ENV);
+const isDebug = DEBUG_MODE.includes(process.env.NODE_ENV);
 
 class LoggingGCP {
   constructor(objs) {
@@ -29,7 +30,7 @@ class LoggingGCP {
 
         info[
           Symbol.for("message")
-        ] = `${timestamp} [${label}] ${level}: ${message} ${strArgs}`;
+          ] = `${timestamp} [${label}] ${level}: ${message} ${strArgs}`;
 
         if (info && info.error instanceof Error) {
           info.stackTrace = info.error.stack;
@@ -77,6 +78,7 @@ class LoggingGCP {
       }
     } catch (error) {
       console.error(error);
+      throw new Error(error)
     }
   };
 
@@ -95,6 +97,7 @@ class LoggingGCP {
       }
     } catch (error) {
       console.error(error);
+      throw new Error(error)
     }
   };
 
@@ -115,6 +118,7 @@ class LoggingGCP {
       }
     } catch (error) {
       console.error(error);
+      throw new Error(error)
     }
   };
 
@@ -124,13 +128,18 @@ class LoggingGCP {
    * @param data
    */
   debug = (message, ...data) => {
-    if (isDebug) {
-      message = "[DEBUG] - " + message;
-      if (logGCP) {
-        logger.info(message || "DEBUG: ", data);
-      } else {
-        console.info(message || "DEBUG: ", data);
+    try{
+      if(isDebug){
+        message = "[DEBUG] - " + message;
+        if (logGCP) {
+          logger.info(message || "DEBUG: ", data);
+        } else {
+          console.info(message || "DEBUG: ", data);
+        }
       }
+    }catch(error){
+      console.error(error);
+      throw new Error(error)
     }
   };
 
