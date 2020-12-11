@@ -1,13 +1,14 @@
-const { LoggingWinston } = require("@google-cloud/logging-winston");
-const { format, createLogger, transports } = require("winston");
+const {LoggingWinston} = require("@google-cloud/logging-winston");
+const {format, createLogger, transports} = require("winston");
 const constants = require("./common/constants");
 const jsonStringify = require("fast-safe-stringify");
+const ENVIRONMENT = (process.env.NODE_ENV || "").toUpperCase();
 
 let logger;
 let instance;
 
-let logGCP =
-  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
+const logGCP = ENVIRONMENT === "PRODUCTION" || ENVIRONMENT === "STAGING";
+const isDebug = ENVIRONMENT !== "DEVELOP" || ENVIRONMENT !== "DEBUG";
 
 class LoggingGCP {
   constructor(objs) {
@@ -123,15 +124,13 @@ class LoggingGCP {
    * @param data
    */
   debug = (message, ...data) => {
-    try {
+    if (isDebug) {
       message = "[DEBUG] - " + message;
       if (logGCP) {
         logger.info(message || "DEBUG: ", data);
       } else {
         console.info(message || "DEBUG: ", data);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
