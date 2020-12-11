@@ -24,6 +24,17 @@ const logger = require('logging-gcp').init({
 // Supported add multi params
 logger.info('Logging information data to gcp', params1 , params2, params3);
  ```
+
+Support debug mode, hide log with mode **testing or develop**
+```shell
+#set NODE_ENV to environment
+NODE_ENV=develop || DEVELOP
+NODE_ENV=debug || DEBUG
+```
+```javascript
+// use debug mode
+logger.debug('Logging information data to gcp', params1 , params2, params3);
+```
 ## Environment
 
 ``` sh
@@ -57,24 +68,6 @@ logger.error('Logging error message to gcp');
 
 // Supported add multi params
 logger.info('Logging information data to gcp', params1 , params2, params3);
- ```
-
- ## New Update
-
-```javascript
-//Logging with type info
-logger.info(
-  'Logging information data to gcp', 
-  {test: "Test logging info"}, 
-  "Logging Info"
-);
-
-//Logging with type error
-logger.error(
-  'Logging information data to gcp', 
-  {test: "Test logging error"}, 
-  "Logging error"
-);
  ```
 
 ## Author
