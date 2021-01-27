@@ -68,7 +68,7 @@ class LoggingGCP {
    * @param message
    * @param data
    */
-  info = (message, ...data) => {
+  info(message, ...data) {
     try {
       message = "[INFO] - " + message;
       if (logGCP) {
@@ -87,7 +87,7 @@ class LoggingGCP {
    * @param message
    * @param data
    */
-  warning = (message, ...data) => {
+  warning(message, ...data) {
     try {
       message = "[WARNING] - " + message;
       if (logGCP) {
@@ -106,7 +106,7 @@ class LoggingGCP {
    * @param message
    * @param data
    */
-  error = (message, ...data) => {
+  error(message, ...data) {
     try {
       message =
         "[ERROR] - " + message + (message.stack ? "::" + message.stack : "");
@@ -120,16 +120,16 @@ class LoggingGCP {
       console.error(error);
       throw new Error(error)
     }
-  };
+  }
 
   /**
    *
    * @param message
    * @param data
    */
-  debug = (message, ...data) => {
-    try{
-      if(isDebug){
+  debug(message, ...data) {
+    try {
+      if (isDebug) {
         message = "[DEBUG] - " + message;
         if (logGCP) {
           logger.info(message || "DEBUG: ", data);
@@ -137,13 +137,13 @@ class LoggingGCP {
           console.info(message || "DEBUG: ", data);
         }
       }
-    }catch(error){
+    } catch (error) {
       console.error(error);
       throw new Error(error)
     }
-  };
+  }
 
-  static init = (objs) => {
+  static init(objs) {
     if (!instance) {
       instance = new LoggingGCP(objs);
     }
