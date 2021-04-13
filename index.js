@@ -71,11 +71,7 @@ class LoggingGCP {
   info(message, ...data) {
     try {
       message = "[INFO] - " + message;
-      if (logGCP) {
-        logger.info(message || "ERROR: ", data);
-      } else {
-        console.info(message || "ERROR: ", data);
-      }
+      logger.info(message || "ERROR: ", data);
     } catch (error) {
       console.error(error);
       throw new Error(error)
@@ -90,11 +86,7 @@ class LoggingGCP {
   warning(message, ...data) {
     try {
       message = "[WARNING] - " + message;
-      if (logGCP) {
-        logger.warn(message || "ERROR: ", data);
-      } else {
-        console.warn(message || "ERROR: ", data);
-      }
+      logger.warn(message || "ERROR: ", data);
     } catch (error) {
       console.error(error);
       throw new Error(error)
@@ -111,11 +103,7 @@ class LoggingGCP {
       message =
         "[ERROR] - " + message + (message.stack ? "::" + message.stack : "");
 
-      if (logGCP) {
-        logger.error(message || "ERROR: ", data);
-      } else {
-        console.error(message || "ERROR: ", data);
-      }
+      logger.error(message || "ERROR: ", data);
     } catch (error) {
       console.error(error);
       throw new Error(error)
